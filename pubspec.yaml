@@ -22,6 +22,7 @@ dependencies:
   agora_rtc_engine: 1.0.5
   permission_handler: ^3.0.0
   path_provider: ^1.6.6
+  native_screenshot: ^0.0.3
 
 dev_dependencies:
   flutter_test:

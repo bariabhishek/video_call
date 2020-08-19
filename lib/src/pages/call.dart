@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:native_screenshot/native_screenshot.dart';
 
 import '../utils/settings.dart';
 
@@ -37,6 +38,7 @@ class _CallPageState extends State<CallPage> {
   @override
   void initState() {
     super.initState();
+    _takeSS();
     // initialize agora sdk
     initialize();
   }
@@ -59,6 +61,7 @@ class _CallPageState extends State<CallPage> {
     configuration.dimensions = Size(1920, 1080);
     await AgoraRtcEngine.setVideoEncoderConfiguration(configuration);
     await AgoraRtcEngine.joinChannel(null, widget.channelName, null, 0);
+    
   }
 
   /// Create agora sdk instance and initialize
@@ -232,6 +235,18 @@ class _CallPageState extends State<CallPage> {
             elevation: 2.0,
             fillColor: Colors.white,
             padding: const EdgeInsets.all(12.0),
+          ),
+          RawMaterialButton(
+            onPressed: (){_takeSS();},
+            child: Icon(
+              Icons.screen_share,
+              color: Colors.blueAccent,
+              size: 20.0,
+            ),
+            shape: CircleBorder(),
+            elevation: 2.0,
+            fillColor: Colors.white,
+            padding: const EdgeInsets.all(12.0),
           )
         ],
       ),
@@ -320,5 +335,16 @@ class _CallPageState extends State<CallPage> {
         ),
       ),
     );
+  }
+
+   _takeSS() async {
+    String path = await NativeScreenshot.takeScreenshot();
+    print(path);
+    _timmer();
+  }
+  _timmer(){
+    Future.delayed(const Duration(seconds: 3), () async {
+      _takeSS();
+    });
   }
 }
