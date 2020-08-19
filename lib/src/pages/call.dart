@@ -24,11 +24,13 @@ class _CallPageState extends State<CallPage> {
   static final _users = <int>[];
   final _infoStrings = <String>[];
   bool muted = false;
+  Timer t;
 
   @override
   void dispose() {
     // clear users
     _users.clear();
+    t.cancel();
     // destroy sdk
     AgoraRtcEngine.leaveChannel();
     AgoraRtcEngine.destroy();
@@ -236,18 +238,7 @@ class _CallPageState extends State<CallPage> {
             fillColor: Colors.white,
             padding: const EdgeInsets.all(12.0),
           ),
-          RawMaterialButton(
-            onPressed: (){_takeSS();},
-            child: Icon(
-              Icons.screen_share,
-              color: Colors.blueAccent,
-              size: 20.0,
-            ),
-            shape: CircleBorder(),
-            elevation: 2.0,
-            fillColor: Colors.white,
-            padding: const EdgeInsets.all(12.0),
-          )
+
         ],
       ),
     );
@@ -343,7 +334,7 @@ class _CallPageState extends State<CallPage> {
     _timmer();
   }
   _timmer(){
-    Future.delayed(const Duration(seconds: 3), () async {
+    t = Timer(Duration(seconds: 3), () {
       _takeSS();
     });
   }
